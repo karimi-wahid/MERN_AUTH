@@ -26,10 +26,10 @@ export const register = async (req, res) => {
 
         res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict', maxAge: 7 * 24 * 60 * 60 * 1000 });
 
-        res.status(201).json({success: true, message: 'User registered successfully' });
+        return res.status(201).json({success: true, message: 'User registered successfully' });
 
     } catch (error) {
-        res.status(500).json({success: false, message: error.message });
+        return res.status(500).json({success: false, message: error.message });
     }
 
 }
@@ -58,10 +58,20 @@ export const login = async (req, res) => {
 
         res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict', maxAge: 30 * 24 * 60 * 60 * 1000 });
 
-        res.status(200).json({success: true, message: 'Logged in successfully' });
+        return res.status(200).json({success: true, message: 'Logged in successfully' });
 
 
     } catch (error) {
-        res.status(500).json({success: false, message: error.message });
+        return res.status(500).json({success: false, message: error.message });
+    }
+}
+
+
+export const logout = (req, res) => {
+    try {
+        res.clearCookie('token', { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict' });
+        return res.status(200).json({success: true, message: 'Logged out successfully' });
+    } catch (error) {
+        return res.status(500).json({success: false, message: error.message });
     }
 }
