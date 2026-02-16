@@ -118,12 +118,12 @@ export const logout = (req, res) => {
 // send verification OTP to the user's Email
 export const sendVerifyOtp = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const userId = req.body?.userId || req.userId;
 
     const user = await User.findById(userId);
 
     if (user.isAccountVerified) {
-      return res.json({ sucess: false, message: "Account already verified" });
+      return res.json({ success: false, message: "Account already verified" });
     }
 
     const otp = String(Math.floor(100000 + Math.random() * 900000));
@@ -151,7 +151,8 @@ export const sendVerifyOtp = async (req, res) => {
 
 // Verify user's email using OTP
 export const verifyEmail = async (req, res) => {
-  const { userId, otp } = req.body;
+  const userId = req.body?.userId || req.userId;
+  const { otp } = req.body;
 
   if (!userId || !otp) {
     return res.json({ success: false, message: "Missing Details" });
