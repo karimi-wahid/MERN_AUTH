@@ -56,14 +56,12 @@ const Login = () => {
           toast.success(response.data.message);
           await getUserData();
           navigate("/");
-        } else {
-          console.log(response.data.message);
-          toast.error(response.data.message);
         }
       }
     } catch (error) {
-      console.log(error.message);
-      toast.error(error.message);
+      console.log(error.response?.data || error.message);
+      const msg = error.response?.data?.message || error.message;
+      toast.error(msg);
     }
   };
 

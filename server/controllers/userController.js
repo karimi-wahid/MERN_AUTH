@@ -24,8 +24,6 @@ export const getUserData = async (req, res) => {
         .json({ success: false, message: "User ID not provided" });
     }
 
-    console.log("User ID from token:", userId);
-
     const user = await User.findById(userId);
     if (!user) {
       console.log("User ID from token:", req.userId);
