@@ -27,13 +27,15 @@ export const getUserData = async (req, res) => {
     const user = await User.findById(userId);
     if (!user) {
       console.log("User ID from token:", req.userId);
-      return res.status(404).json({ message: "User not found 1" });
+      return res.status(404).json({ message: "User not found" });
     }
 
     res.status(200).json({
       success: true,
       userData: {
         name: user.name,
+        email: user.email,
+        role: user.role,
         isAccountVerified: user.isAccountVerified,
       },
     });
